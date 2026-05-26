@@ -1,0 +1,19 @@
+# Secret files
+.env
+
+# Frontend / Node
+node_modules/
+dist/
+.angular/
+npm-debug.log*
+
+# Backend / .NET
+bin/
+obj/
+*.user
+*.suo
+appsettings.Development.json
+
+# Operating System files
+.DS_Store
+Thumbs.db
