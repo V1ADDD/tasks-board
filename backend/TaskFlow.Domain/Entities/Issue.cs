@@ -13,7 +13,7 @@ public class Issue
     public IssueStatus Status { get; set; } = IssueStatus.ToDo;
     public IssuePriority Priority { get; set; } = IssuePriority.Medium;
 
-    public Guid ProtectId { get; set; }
+    public Guid ProjectId { get; set; }
     public string? AssigneeId { get; set; }
 
     public Project Project { get; set; } = null!;
