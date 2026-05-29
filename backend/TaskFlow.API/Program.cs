@@ -11,10 +11,19 @@ using MediatR;
 using TaskFlow.Application.Projects.Commands;
 using TaskFlow.Application.Projects.Queries;
 using TaskFlow.Application.Common.Interfaces;
+using TaskFlow.Application.Issues.Commands;
+using TaskFlow.Application.Issues.Queries;
+using TaskFlow.Domain.Enums;
+using System.Text.Json.Serialization;
 
 DotEnv.Load(options: new DotEnvOptions(probeForEnv: true, probeLevelsToSearch: 6));
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.ConfigureHttpJsonOptions(options =>
+{
+    options.SerializerOptions.Converters.Add(new JsonStringEnumConverter());
+});
 
 builder.Services.AddMediatR(cfg =>
     cfg.RegisterServicesFromAssembly(typeof(TaskFlow.Application.Projects.Commands.CreateProjectCommand).Assembly));
@@ -137,9 +146,36 @@ projectGroup.MapPost("/", async (CreateProjectRequest request, IMediator mediato
 
 });
 
+var issueGroup = app.MapGroup("/api/issues").RequireAuthorization();
+
+// get: /api/issues?projectId=xxx&status=ToDo&searchTerm=Bug&pageNumber=1&pageSize=10
+issueGroup.MapGet("/", async (Guid projectId, IssueStatus? status, string? searchTerm, int? pageNumber, int? pageSize, IMediator mediator) => {
+    var query = new GetFilteredIssuesQuery(projectId, status, searchTerm, pageNumber ?? 1, pageSize ?? 10);
+    var result = await mediator.Send(query);
+    return Results.Ok(result);
+});
+
+// post: /api/issues
+issueGroup.MapPost("/", async (CreateIssueRequest request, IMediator mediator) => {
+    var command = new CreateIssueCommand(request.Title, request.Description, request.ProjectId, request.Priority, request.AssigneeId);
+    var issueId = await mediator.Send(command);
+    return Results.Created($"/api/issues/{issueId}", new { Id = issueId });
+});
+
+// PATCH: /api/issues/{id}/status
+issueGroup.MapPatch("/{id:guid}/status", async (Guid id, UpdateStatusRequest request, IMediator mediator) =>
+{
+    var command = new UpdateIssueStatusCommand(id, request.Status);
+    var updated = await mediator.Send(command);
+    
+    return updated ? Results.NoContent() : Results.NotFound(new { Message = "Target Issue record not found." });
+});
+
 
 app.Run();
 
 public record CreateProjectRequest(string Name, string Code);
 public record RegisterRequest(string Email, string Password);
 public record LoginRequest(string Email, string Password);
+public record CreateIssueRequest(string Title, string Description, Guid ProjectId, IssuePriority Priority, string? AssigneeId);
+public record UpdateStatusRequest(IssueStatus Status);
