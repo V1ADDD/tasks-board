@@ -7,10 +7,17 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using TaskFlow.Infrastructure.Data;
 using dotenv.net;
+using MediatR;
+using TaskFlow.Application.Projects.Commands;
+using TaskFlow.Application.Projects.Queries;
+using TaskFlow.Application.Common.Interfaces;
 
 DotEnv.Load(options: new DotEnvOptions(probeForEnv: true, probeLevelsToSearch: 6));
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddMediatR(cfg =>
+    cfg.RegisterServicesFromAssembly(typeof(TaskFlow.Application.Projects.Commands.CreateProjectCommand).Assembly));
 
 builder.Services.AddOpenApi();
 
@@ -18,6 +25,8 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
+
+builder.Services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<ApplicationDbContext>());
 
 builder.Services.AddIdentityCore<IdentityUser>(options => {
     options.Password.RequireDigit = true;
@@ -102,7 +111,35 @@ app.MapPost("/api/auth/login", async (LoginRequest request, UserManager<Identity
     return Results.Ok(new { Token = accessToken, Email = user.Email });
 });
 
+var projectGroup = app.MapGroup("/api/projects").RequireAuthorization();
+
+// get: /api/projects
+projectGroup.MapGet("/", async (IMediator mediator) => {
+    var query = new GetProjectsQuery();
+    var result = await mediator.Send(query);
+    return Results.Ok(result);
+});
+
+// post: /api/projects
+projectGroup.MapPost("/", async (CreateProjectRequest request, IMediator mediator, ClaimsPrincipal user) => {
+    var userId = user.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+    if (string.IsNullOrEmpty(userId)) return Results.Unauthorized();
+
+    var command = new CreateProjectCommand(
+        request.Name,
+        request.Code,
+        userId
+    );
+    var projectId = await mediator.Send(command);
+
+    return Results.Created($"/api/projects/{projectId}", new { Id = projectId });
+
+});
+
+
 app.Run();
 
+public record CreateProjectRequest(string Name, string Code);
 public record RegisterRequest(string Email, string Password);
 public record LoginRequest(string Email, string Password);
