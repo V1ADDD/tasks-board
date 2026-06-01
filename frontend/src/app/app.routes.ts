@@ -10,6 +10,12 @@ export const routes: Routes = [
     path: 'dashboard',
     canActivate: [authGuard],
     loadComponent: () => import('./features/dashboard/dashboard').then((m) => m.Dashboard),
+    children: [
+      {
+        path: 'project/:id',
+        loadComponent: () => import('./features/kanban/kanban').then((m) => m.Kanban),
+      },
+    ],
   },
   {
     path: '',

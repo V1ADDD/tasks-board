@@ -1,0 +1,91 @@
+<div class="kanban-board-container">
+  @if (issueStore.isLoading()) {
+    <div class="board-loader">Loading active workspace tickets...</div>
+  } @else {
+    <div class="board-grid">
+      <div class="kanban-column">
+        <div class="column-header todo-hdr">
+          <h3>To Do</h3>
+          <span class="ticket-count">{{ issueStore.todoIssues().length }}</span>
+        </div>
+        <div class="card-lane">
+          @for (task of issueStore.todoIssues(); track task.id) {
+            <div class="task-card">
+              <h4>{{ task.title }}</h4>
+              <p>{{ task.description }}</p>
+              <div class="card-footer">
+                <span class="priority-tag" [attr.data-priority]="task.priority">{{
+                  task.priority
+                }}</span>
+                <button class="action-move-btn" (click)="changeCardStatus(task.id, 'InProgress')">
+                  →
+                </button>
+              </div>
+            </div>
+          } @empty {
+            <div class="empty-lane-placeholder">No tasks here</div>
+          }
+        </div>
+      </div>
+
+      <div class="kanban-column">
+        <div class="column-header progress-hdr">
+          <h3>In Progress</h3>
+          <span class="ticket-count">{{ issueStore.inProgressIssues().length }}</span>
+        </div>
+        <div class="card-lane">
+          @for (task of issueStore.inProgressIssues(); track task.id) {
+            <div class="task-card">
+              <h4>{{ task.title }}</h4>
+              <p>{{ task.description }}</p>
+              <div class="card-footer">
+                <button
+                  class="action-move-btn left-btn"
+                  (click)="changeCardStatus(task.id, 'ToDo')"
+                >
+                  ←
+                </button>
+                <span class="priority-tag" [attr.data-priority]="task.priority">{{
+                  task.priority
+                }}</span>
+                <button class="action-move-btn" (click)="changeCardStatus(task.id, 'Done')">
+                  →
+                </button>
+              </div>
+            </div>
+          } @empty {
+            <div class="empty-lane-placeholder">No active work items</div>
+          }
+        </div>
+      </div>
+
+      <div class="kanban-column">
+        <div class="column-header done-hdr">
+          <h3>Done</h3>
+          <span class="ticket-count">{{ issueStore.doneIssues().length }}</span>
+        </div>
+        <div class="card-lane">
+          @for (task of issueStore.doneIssues(); track task.id) {
+            <div class="task-card completed-card">
+              <h4>{{ task.title }}</h4>
+              <p>{{ task.description }}</p>
+              <div class="card-footer">
+                <button
+                  class="action-move-btn left-btn"
+                  (click)="changeCardStatus(task.id, 'InProgress')"
+                >
+                  ←
+                </button>
+                <span class="priority-tag" [attr.data-priority]="task.priority">{{
+                  task.priority
+                }}</span>
+              </div>
+            </div>
+          } @empty {
+            <div class="empty-lane-placeholder">Clear history panel</div>
+          }
+        </div>
+      </div>
+    </div>
+  }
+</div>
