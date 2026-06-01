@@ -1,122 +1,125 @@
 .dashboard-shell {
-    display: flex;
-    width: 100vw;
-    height: 100vh;
-    overflow: hidden;
-    background-color: #f9fafb;
-    font-family: system-ui, -apple-system, sans-serif;
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background-color: #f9fafb;
+  font-family:
+    system-ui,
+    -apple-system,
+    sans-serif;
 }
 
 .sidebar {
-    width: 280px;
-    background-color: #1f2937;
-    color: #f3f4f6;
-    display: flex;
-    flex-direction: column;
-    padding: 1.5rem;
+  width: 280px;
+  background-color: #1f2937;
+  color: #f3f4f6;
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem;
 }
 
 .sidebar-header {
-    margin-bottom: 2rem;
-    border-bottom: 1px solid #374151;
-    padding-bottom: 1rem;
+  margin-bottom: 2rem;
+  border-bottom: 1px solid #374151;
+  padding-bottom: 1rem;
 }
 
 .sidebar-header h2 {
-    margin: 0;
-    font-size: 1.5rem;
-    color: #ffffff;
+  margin: 0;
+  font-size: 1.5rem;
+  color: #ffffff;
 }
 
 .user-badge {
-    font-size: 0.85rem;
-    color: #9ca3af;
-    word-break: break-all;
+  font-size: 0.85rem;
+  color: #9ca3af;
+  word-break: break-all;
 }
 
 .sidebar-nav {
-    flex: 1;
+  flex: 1;
 }
 
 .nav-section-title {
-    display: block;
-    font-size: 0.75rem;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: #9ca3af;
-    margin-bottom: 0.75rem;
+  display: block;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #9ca3af;
+  margin-bottom: 0.75rem;
 }
 
 .project-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
 
 .project-list li {
-    margin-bottom: 0.5rem;
+  margin-bottom: 0.5rem;
 }
 
 .project-list a {
-    display: flex;
-    gap: 0.5rem;
-    color: #d1d5db;
-    text-decoration: none;
-    padding: 0.75rem;
-    border-radius: 0.375rem;
-    transition: background 0.2s;
+  display: flex;
+  gap: 0.5rem;
+  color: #d1d5db;
+  text-decoration: none;
+  padding: 0.75rem;
+  border-radius: 0.375rem;
+  transition: background 0.2s;
 }
 
 .project-list a:hover,
 .project-list a.active-link {
-    background-color: #374151;
-    color: #ffffff;
+  background-color: #374151;
+  color: #ffffff;
 }
 
 .project-code {
-    font-weight: bold;
-    color: #60a5fa;
+  font-weight: bold;
+  color: #60a5fa;
 }
 
 .logout-btn {
-    width: 100%;
-    background-color: #ef4444;
-    color: white;
-    border: none;
-    padding: 0.75rem;
-    border-radius: 0.375rem;
-    cursor: pointer;
-    font-weight: bold;
+  width: 100%;
+  background-color: #ef4444;
+  color: white;
+  border: none;
+  padding: 0.75rem;
+  border-radius: 0.375rem;
+  cursor: pointer;
+  font-weight: bold;
 }
 
 .logout-btn:hover {
-    background-color: #dc2626;
+  background-color: #dc2626;
 }
 
 .main-content {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 }
 
 .top-bar {
-    background-color: white;
-    height: 64px;
-    display: flex;
-    align-items: center;
-    padding: 0 2rem;
-    border-bottom: 1px solid #e5e7eb;
+  background-color: white;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  padding: 0 2rem;
+  border-bottom: 1px solid #e5e7eb;
 }
 
 .top-bar h1 {
-    margin: 0;
-    font-size: 1.25rem;
-    color: #111827;
+  margin: 0;
+  font-size: 1.25rem;
+  color: #111827;
 }
 
 .content-body {
-    flex: 1;
-    padding: 2rem;
-    overflow-y: auto;
+  flex: 1;
+  padding: 2rem;
+  overflow-y: auto;
 }
