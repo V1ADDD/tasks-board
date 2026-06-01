@@ -12,8 +12,8 @@ import { ProjectStore } from '../../core/store/project.store';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Dashboard implements OnInit {
-  private authStore = inject(AuthStore);
-  private projectStore = inject(ProjectStore);
+  protected authStore = inject(AuthStore);
+  protected projectStore = inject(ProjectStore);
 
   ngOnInit(): void {
     this.projectStore.loadAllProjects();
