@@ -1,1 +1,42 @@
-<p>dashboard works!</p>
+<div class="dashboard-shell">
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <h2>TaskFlow</h2>
+            <span class="user-badge">{{ authStore.user()?.email }}</span>
+        </div>
+
+        <nav class="sidebar-nav">
+            <span class="nav-section-title">Active Projects</span>
+
+            @if (projectStore.isLoading()) {
+            <div class="loader">Loading workspace...</div>
+            }
+
+            <ul class="project-list">
+                @for (project of projectStore.projects(); track project.id) {
+                <li>
+                    <a [routerLink]="['/dashboard/project', project.id]" routerLinkActive="active-link">
+                        <span class="project-code">[{{ project.code }}]</span>
+                        <span class="project-name">{{ project.name }}</span>
+                    </a>
+                </li>
+                } @empty {
+                <li class="empty-state">No projects initialized yet.</li>
+                }
+            </ul>
+        </nav>
+
+        <div class="sidebar-footer">
+            <button class="logout-btn" (click)="authStore.logout()">Logout</button>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <header class="top-bar">
+            <h1>Workspace Dashboard</h1>
+        </header>
+        <section class="content-body">
+            <router-outlet></router-outlet>
+        </section>
+    </main>
+</div>
