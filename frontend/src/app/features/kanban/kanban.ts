@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, DestroyRef, inject, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { IssueStore } from '../../core/store/issue.store';
 import { ActivatedRoute } from '@angular/router';
 import { tap } from 'rxjs';
@@ -10,6 +10,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   imports: [CommonModule],
   templateUrl: './kanban.html',
   styleUrl: './kanban.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Kanban implements OnInit {
   protected issueStore = inject(IssueStore);

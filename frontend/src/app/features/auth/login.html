@@ -1,1 +1,53 @@
-<p>login works!</p>
+<div class="auth-container">
+  <div class="auth-card">
+    <h2>Welcome to TaskFlow</h2>
+    <p class="subtitle">Sign in to manage your Agile workspaces</p>
+
+    @if (authStore.error()) {
+      <div class="alert alert-danger">{{ authStore.error() }}</div>
+    }
+
+    <form (submit)="onSubmit($event)">
+      <div class="form-group">
+        <label for="email">Email Address</label>
+        <input
+          type="email"
+          id="email"
+          [formField]="loginForm.email"
+          placeholder="you@example.com"
+        />
+
+        @if (loginForm.email().touched() && !loginForm.email().valid()) {
+          <span class="error-msg">{{ loginForm.email().errors()[0]?.message }}</span>
+        }
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input
+          type="password"
+          id="password"
+          [formField]="loginForm.password"
+          placeholder="••••••••"
+        />
+
+        @if (loginForm.password().touched() && !loginForm.password().valid()) {
+          <span class="error-msg">{{ loginForm.password().errors()[0]?.message }}</span>
+        }
+      </div>
+
+      <button
+        type="submit"
+        class="submit-btn"
+        [disabled]="!loginForm().valid() || authStore.isLoading()"
+      >
+        {{ authStore.isLoading() ? 'Signing in...' : 'Sign In' }}
+      </button>
+    </form>
+
+    <div class="auth-footer">
+      <span>Don't have an account? </span>
+      <a routerLink="/register">Create an account</a>
+    </div>
+  </div>
+</div>

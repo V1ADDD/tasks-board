@@ -1,0 +1,53 @@
+<div class="auth-container">
+  <div class="auth-card">
+    <h2>Create Your Account</h2>
+    <p class="subtitle">Join TaskFlow to optimize team collaboration</p>
+
+    @if (authStore.error()) {
+      <div class="alert alert-danger">{{ authStore.error() }}</div>
+    }
+
+    <form (submit)="onRegister($event)">
+      <div class="form-group">
+        <label for="reg-email">Email Address</label>
+        <input
+          type="email"
+          id="reg-email"
+          [formField]="registerForm.email"
+          placeholder="username@domain.com"
+        />
+
+        @if (registerForm.email().touched() && !registerForm.email().valid()) {
+          <span class="error-msg">{{ registerForm.email().errors()[0]?.message }}</span>
+        }
+      </div>
+
+      <div class="form-group">
+        <label for="reg-password">Password (Min 8 Characters)</label>
+        <input
+          type="password"
+          id="reg-password"
+          [formField]="registerForm.password"
+          placeholder="••••••••"
+        />
+
+        @if (registerForm.password().touched() && !registerForm.password().valid()) {
+          <span class="error-msg">{{ registerForm.password().errors()[0]?.message }}</span>
+        }
+      </div>
+
+      <button
+        type="submit"
+        class="submit-btn"
+        [disabled]="!registerForm().valid() || authStore.isLoading()"
+      >
+        {{ authStore.isLoading() ? 'Registering workspace...' : 'Register Profile' }}
+      </button>
+    </form>
+
+    <div class="auth-footer">
+      <span>Already have an account? </span>
+      <a routerLink="/login">Sign in instead</a>
+    </div>
+  </div>
+</div>

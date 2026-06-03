@@ -1,37 +1,35 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { email, form, FormField, minLength, required } from '@angular/forms/signals';
 import { RouterLink } from '@angular/router';
-import { form, FormField, required, email } from '@angular/forms/signals';
 import { AuthStore } from '../../core/store/auth.store';
 
 @Component({
-  selector: 'app-login',
+  selector: 'app-register',
   imports: [RouterLink, FormField],
-  templateUrl: './login.html',
+  templateUrl: './register.html',
   styleUrl: './auth.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class Login {
+export class Register {
   protected authStore = inject(AuthStore);
 
-  protected apiError = this.authStore.error();
-  protected isSubmitting = this.authStore.isLoading();
-
-  protected credentials = signal({
+  protected accountModel = signal({
     email: '',
     password: '',
   });
 
-  protected loginForm = form(this.credentials, (path) => {
+  protected registerForm = form(this.accountModel, (path) => {
     required(path.email, { message: 'Email is required.' });
     email(path.email, { message: 'Email is invalid.' });
     required(path.password, { message: 'Password is required.' });
+    minLength(path.password, 8, { message: 'Password must be at least 8 characters' });
   });
 
-  onSubmit(event: Event): void {
+  onRegister(event: Event): void {
     event.preventDefault();
 
-    if (this.loginForm().valid()) {
-      this.authStore.login(this.credentials());
+    if (this.registerForm().valid()) {
+      this.authStore.register(this.accountModel());
     }
   }
 }

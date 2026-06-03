@@ -48,5 +48,27 @@ export const AuthStore = signalStore(
         ),
       ),
     ),
+
+    register: rxMethod<{ email: string; password: string }>(
+      pipe(
+        tap(() => patchState(store, { isLoading: true, error: null })),
+        switchMap((credentials) =>
+          http.post<UserSession>('https://localhost:5210/api/auth/register', credentials).pipe(
+            tap((userSession) => {
+              patchState(store, { user: userSession, isLoading: false });
+              router.navigate(['/dashboard']);
+            }),
+            catchError((err) => {
+              const errorMsg =
+                err.status === 401
+                  ? 'Invalid credentials'
+                  : 'An error occurred. Please try again later.';
+              patchState(store, { error: errorMsg, isLoading: false });
+              return of(err);
+            }),
+          ),
+        ),
+      ),
+    ),
   })),
 );
