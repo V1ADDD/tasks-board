@@ -31,7 +31,7 @@ export const AuthStore = signalStore(
       pipe(
         tap(() => patchState(store, { isLoading: true, error: null })),
         switchMap((credentials) =>
-          http.post<UserSession>('https://localhost:5210/api/auth/login', credentials).pipe(
+          http.post<UserSession>('http://localhost:5210/api/auth/login', credentials).pipe(
             tap((userSession) => {
               patchState(store, { user: userSession, isLoading: false });
               router.navigate(['/dashboard']);
@@ -53,7 +53,7 @@ export const AuthStore = signalStore(
       pipe(
         tap(() => patchState(store, { isLoading: true, error: null })),
         switchMap((credentials) =>
-          http.post<UserSession>('https://localhost:5210/api/auth/register', credentials).pipe(
+          http.post<UserSession>('http://localhost:5210/api/auth/register', credentials).pipe(
             tap((userSession) => {
               patchState(store, { user: userSession, isLoading: false });
               router.navigate(['/dashboard']);
