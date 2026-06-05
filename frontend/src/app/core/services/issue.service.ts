@@ -42,6 +42,6 @@ export class IssueService {
   }
 
   updateStatus(issueId: string, status: 'ToDo' | 'InProgress' | 'Done'): Observable<void> {
-    return this.http.patch<void>(this.apiUrl + `/api/issues/${issueId}/status`, { status });
+    return this.http.patch<void>(this.apiUrl + `/api/issues/${issueId}/status`, { status }, { withCredentials: true });
   }
 }
