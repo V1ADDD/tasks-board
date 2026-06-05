@@ -6,7 +6,12 @@
     </div>
 
     <nav class="sidebar-nav">
-      <span class="nav-section-title">Active Projects</span>
+      <div class="nav-section-header">
+        <span class="nav-section-title">Active Projects</span>
+        <button type="button" class="add-project-inline-btn" (click)="projectModalRef.openModal()">
+          +
+        </button>
+      </div>
 
       @if (projectStore.isLoading()) {
         <div class="loader">Loading workspace...</div>
@@ -40,3 +45,5 @@
     </section>
   </main>
 </div>
+
+<app-create-project-dialog #projectModalRef></app-create-project-dialog>

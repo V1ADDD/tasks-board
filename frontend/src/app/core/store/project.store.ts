@@ -39,5 +39,31 @@ export const ProjectStore = signalStore(
         ),
       ),
     ),
+    createProject: rxMethod<{ name: string; code: string }>(
+      pipe(
+        tap(() => patchState(store, { isLoading: true, error: null })),
+        switchMap((payload) =>
+          projectService.createProject(payload).pipe(
+            tap((response) => {
+              const newProject: Project = {
+                id: response.id,
+                name: payload.name,
+                code: payload.code.toUpperCase(),
+                ownerId: '',
+              };
+
+              patchState(store, { projects: [...store.projects(), newProject], isLoading: false });
+            }),
+            catchError(() => {
+              patchState(store, {
+                error: 'Failed to create new workspace profile',
+                isLoading: false,
+              });
+              return of(null);
+            }),
+          ),
+        ),
+      ),
+    ),
   })),
 );

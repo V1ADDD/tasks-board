@@ -1,0 +1,44 @@
+<dialog #projectModal class="proj-dialog-modal">
+  <div class="modal-inner">
+    <div class="modal-header">
+      <h2>Create New Project</h2>
+      <button type="button" class="close-x-btn" (click)="closeModal()">×</button>
+    </div>
+
+    <form (submit)="onSubmit($event)">
+      <div class="form-group">
+        <label for="proj-name">Project Name</label>
+        <input
+          type="text"
+          id="proj-name"
+          [formField]="projectForm.name"
+          placeholder="e.g., Marketing Campaign"
+        />
+        @if (projectForm.name().touched() && !projectForm.name().valid()) {
+          <span class="error-text">{{ projectForm.name().errors()[0]?.message }}</span>
+        }
+      </div>
+
+      <div class="form-group">
+        <label for="proj-code">Project Prefix Code</label>
+        <input
+          type="text"
+          id="proj-code"
+          [formField]="projectForm.code"
+          placeholder="e.g., MKT"
+          style="text-transform: uppercase"
+        />
+        @if (projectForm.code().touched() && !projectForm.code().valid()) {
+          <span class="error-text">{{ projectForm.code().errors()[0]?.message }}</span>
+        }
+      </div>
+
+      <div class="modal-actions">
+        <button type="button" class="cancel-btn" (click)="closeModal()">Cancel</button>
+        <button type="submit" class="submit-btn" [disabled]="!projectForm().valid()">
+          Create Project
+        </button>
+      </div>
+    </form>
+  </div>
+</dialog>

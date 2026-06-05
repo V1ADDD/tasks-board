@@ -11,4 +11,10 @@ export class ProjectService {
   getProjects(): Observable<Project[]> {
     return this.http.get<Project[]>(this.apiUrl + '/api/project');
   }
+
+  createProject(project: { name: string; code: string }): Observable<{ id: string }> {
+    return this.http.post<{ id: string }>(this.apiUrl + '/api/project', project, {
+      withCredentials: true,
+    });
+  }
 }

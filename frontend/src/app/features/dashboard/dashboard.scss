@@ -123,3 +123,30 @@
   padding: 2rem;
   overflow-y: auto;
 }
+
+.nav-section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+.nav-section-header .nav-section-title {
+  margin-bottom: 0;
+  /* Clear bottom margin to balance flexline alignment */
+}
+
+.add-project-inline-btn {
+  background: none;
+  border: none;
+  color: #60a5fa;
+  font-size: 1.25rem;
+  font-weight: bold;
+  cursor: pointer;
+  line-height: 1;
+  padding: 0 0.5rem;
+}
+
+.add-project-inline-btn:hover {
+  color: #ffffff;
+}
