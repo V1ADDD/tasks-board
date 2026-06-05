@@ -1,3 +1,9 @@
+<div class="board-action-toolbar">
+  <h2>Workspace Sprint Board</h2>
+  <button type="button" class="create-ticket-trigger-btn" (click)="issueModalRef.openModal()">
+    + Create Task
+  </button>
+</div>
 <div class="kanban-board-container">
   @if (issueStore.isLoading()) {
     <div class="board-loader">Loading active workspace tickets...</div>
@@ -89,3 +95,4 @@
     </div>
   }
 </div>
+<app-create-issue-dialog #issueModalRef></app-create-issue-dialog>

@@ -1,0 +1,44 @@
+<dialog #modalElement class="issue-dialog-modal">
+    <div class="modal-wrapper">
+        <div class="modal-header">
+            <h2>Create New Task Ticket</h2>
+            <button type="button" class="close-header-btn" (click)="closeModal()">×</button>
+        </div>
+
+        <form (submit)="onSubmit($event)">
+            <div class="form-group">
+                <label for="task-title">Ticket Title</label>
+                <input type="text" id="task-title" [formField]="issueForm.title"
+                    placeholder="e.g., Integrate Redis Caching" />
+                @if (issueForm.title().touched() && !issueForm.title().valid()) {
+                <span class="error-text">{{ issueForm.title().errors()[0]?.message }}</span>
+                }
+            </div>
+
+            <div class="form-group">
+                <label for="task-desc">Detailed Description</label>
+                <textarea id="task-desc" rows="4" [formField]="issueForm.description"
+                    placeholder="Describe dependencies and acceptance criteria..."></textarea>
+                @if (issueForm.description().touched() && !issueForm.description().valid()) {
+                <span class="error-text">{{ issueForm.description().errors()[0]?.message }}</span>
+                }
+            </div>
+
+            <div class="form-group">
+                <label for="task-priority">Task Priority</label>
+                <select id="task-priority" [formField]="issueForm.priority">
+                    <option value="Low">Low Priority</option>
+                    <option value="Medium">Medium Priority</option>
+                    <option value="High">High Priority</option>
+                </select>
+            </div>
+
+            <div class="modal-actions">
+                <button type="button" class="cancel-btn" (click)="closeModal()">Cancel</button>
+                <button type="submit" class="submit-btn" [disabled]="!issueForm().valid()">
+                    Create Ticket
+                </button>
+            </div>
+        </form>
+    </div>
+</dialog>

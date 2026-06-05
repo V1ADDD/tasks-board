@@ -4,10 +4,11 @@ import { IssueStore } from '../../core/store/issue.store';
 import { ActivatedRoute } from '@angular/router';
 import { tap } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { CreateIssueDialog } from './create-issue-dialog';
 
 @Component({
   selector: 'app-kanban',
-  imports: [CommonModule],
+  imports: [CommonModule, CreateIssueDialog],
   templateUrl: './kanban.html',
   styleUrl: './kanban.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

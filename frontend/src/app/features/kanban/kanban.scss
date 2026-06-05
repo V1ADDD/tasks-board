@@ -151,3 +151,30 @@
   border-radius: 0.375rem;
   font-size: 0.9rem;
 }
+
+.board-action-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.board-action-toolbar h2 {
+  margin: 0;
+  font-size: 1.25rem;
+  color: #1f2937;
+}
+
+.create-ticket-trigger-btn {
+  background-color: #2563eb;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 0.375rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.create-ticket-trigger-btn:hover {
+  background-color: #1d4ed8;
+}

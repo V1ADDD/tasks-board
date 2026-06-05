@@ -71,9 +71,54 @@ export const IssueStore = signalStore(
       ),
     );
 
+    const createIssue = rxMethod<{
+      title: string;
+      description: string;
+      priority: 'Low' | 'Medium' | 'High';
+    }>(
+      pipe(
+        tap(() => patchState(store, { isLoading: true, error: null })),
+        switchMap((formPayload) => {
+          const projectId = store.activeProjectId();
+
+          if (projectId === null) {
+            patchState(store, { error: 'No active project selected', isLoading: false });
+            return of(null);
+          }
+
+          const completePayload = {
+            ...formPayload,
+            projectId,
+            assigneeId: null,
+          };
+
+          return issueService.createIssue(completePayload).pipe(
+            tap((createdResponse) => {
+              const newIssue: Issue = {
+                id: createdResponse.id,
+                title: formPayload.title,
+                description: formPayload.description,
+                priority: formPayload.priority,
+                status: 'ToDo',
+                projectID: projectId,
+                assigneeId: null,
+              };
+
+              patchState(store, { issues: [...store.issues(), newIssue], isLoading: false });
+            }),
+            catchError(() => {
+              patchState(store, { error: 'Failed to create task', isLoading: false });
+              return of(null);
+            }),
+          );
+        }),
+      ),
+    );
+
     return {
       loadIssuesByProject,
       moveIssueStatus,
+      createIssue,
     };
   }),
 );
