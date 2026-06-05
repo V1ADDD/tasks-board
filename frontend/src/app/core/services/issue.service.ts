@@ -1,6 +1,5 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { environment } from '../../../environments/environment';
 import { Observable } from 'rxjs';
 
 export interface Issue {
@@ -23,7 +22,7 @@ interface PaginatedResponse {
 @Injectable({ providedIn: 'root' })
 export class IssueService {
   private http = inject(HttpClient);
-  private apiUrl = environment.apiUrl;
+  private apiUrl = 'http://localhost:5210';
 
   getIssues(
     projectId: string,
@@ -42,6 +41,10 @@ export class IssueService {
   }
 
   updateStatus(issueId: string, status: 'ToDo' | 'InProgress' | 'Done'): Observable<void> {
-    return this.http.patch<void>(this.apiUrl + `/api/issues/${issueId}/status`, { status }, { withCredentials: true });
+    return this.http.patch<void>(
+      this.apiUrl + `/api/issues/${issueId}/status`,
+      { status },
+      { withCredentials: true },
+    );
   }
 }

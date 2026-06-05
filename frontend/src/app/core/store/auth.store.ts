@@ -31,20 +31,24 @@ export const AuthStore = signalStore(
       pipe(
         tap(() => patchState(store, { isLoading: true, error: null })),
         switchMap((credentials) =>
-          http.post<UserSession>('http://localhost:5210/api/auth/login', credentials, { withCredentials: true }).pipe(
-            tap((userSession) => {
-              patchState(store, { user: userSession, isLoading: false });
-              router.navigate(['/dashboard']);
-            }),
-            catchError((err) => {
-              const errorMsg =
-                err.status === 401
-                  ? 'Invalid credentials'
-                  : 'An error occurred. Please try again later.';
-              patchState(store, { error: errorMsg, isLoading: false });
-              return of(err);
-            }),
-          ),
+          http
+            .post<UserSession>('http://localhost:5210/api/auth/login', credentials, {
+              withCredentials: true,
+            })
+            .pipe(
+              tap((userSession) => {
+                patchState(store, { user: userSession, isLoading: false });
+                router.navigate(['/dashboard']);
+              }),
+              catchError((err) => {
+                const errorMsg =
+                  err.status === 401
+                    ? 'Invalid credentials'
+                    : 'An error occurred. Please try again later.';
+                patchState(store, { error: errorMsg, isLoading: false });
+                return of(err);
+              }),
+            ),
         ),
       ),
     ),
@@ -53,20 +57,22 @@ export const AuthStore = signalStore(
       pipe(
         tap(() => patchState(store, { isLoading: true, error: null })),
         switchMap((credentials) =>
-          http.post<UserSession>('http://localhost:5210/api/auth/register', credentials, { withCredentials: true }).pipe(
-            tap((userSession) => {
-              patchState(store, { user: userSession, isLoading: false });
-              router.navigate(['/dashboard']);
-            }),
-            catchError((err) => {
-              const errorMsg =
-                err.status === 401
-                  ? 'Invalid credentials'
-                  : 'An error occurred. Please try again later.';
-              patchState(store, { error: errorMsg, isLoading: false });
-              return of(err);
-            }),
-          ),
+          http
+            .post<UserSession>('http://localhost:5210/api/auth/register', credentials, {
+              withCredentials: true,
+            })
+            .pipe(
+              tap((userSession) => {
+                patchState(store, { user: userSession, isLoading: false });
+                router.navigate(['/dashboard']);
+              }),
+              catchError((err) => {
+                const errorMsg =
+                  err.error[0]?.description || 'An error occurred. Please try again later.';
+                patchState(store, { error: errorMsg, isLoading: false });
+                return of(err);
+              }),
+            ),
         ),
       ),
     ),
