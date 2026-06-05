@@ -9,11 +9,11 @@ export class ProjectService {
   private apiUrl = 'http://localhost:5210';
 
   getProjects(): Observable<Project[]> {
-    return this.http.get<Project[]>(this.apiUrl + '/api/project');
+    return this.http.get<Project[]>(this.apiUrl + '/api/projects');
   }
 
   createProject(project: { name: string; code: string }): Observable<{ id: string }> {
-    return this.http.post<{ id: string }>(this.apiUrl + '/api/project', project, {
+    return this.http.post<{ id: string }>(this.apiUrl + '/api/projects', project, {
       withCredentials: true,
     });
   }
