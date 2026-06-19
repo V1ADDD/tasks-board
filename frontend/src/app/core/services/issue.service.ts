@@ -49,6 +49,6 @@ export class IssueService {
   }
 
   createIssue(payload: Partial<Issue>): Observable<{ id: string }> {
-    return this.http.post<{ id: string }>(this.apiUrl, payload);
+    return this.http.post<{ id: string }>(this.apiUrl + '/api/issues/', payload, { withCredentials: true });
   }
 }
